@@ -4,6 +4,10 @@ import { carSizeList } from 'src/type/driver';
 import axios from 'axios';
 import { TripEntity } from 'src/pg/entity/trip.entity';
 import { sleep } from 'src/util/util';
+import { ReviewEntity } from 'src/pg/entity/review.entity';
+
+const targetUrl = `http://localhost:3000`;
+
 function getRandomNumber(min: number, max: number): number {
     const randomDecimal: number = Math.random();
     const randomNumberInRange: number = min + randomDecimal * (max - min + 1);
@@ -20,7 +24,7 @@ async function generateDriver(n: number) {
             carSize: carSizeList[getRandomNumber(0, 2)],
             profileImgUrl: faker.image.urlLoremFlickr({ category: 'cats' }),
         };
-        await axios.post('http://claycat.site:3000/api/driver', fakeDriver);
+        await axios.post(`${targetUrl}/api/driver`, fakeDriver);
     }
 }
 
@@ -35,23 +39,40 @@ async function generateTrip(n: number, driverId: string) {
                 coordinates: [faker.location.longitude(), faker.location.latitude()],
             },
         };
-        await axios.post('http://claycat.site:3000/api/trip', fakeTrip);
+        await axios.post(`${targetUrl}/api/trip`, fakeTrip);
     }
 }
 
+async function generateReview(tripId: string) {
+    const fakeReview: Partial<ReviewEntity> = {
+        rating: getRandomNumber(1, 5),
+        content: faker.lorem.lines({ max: 5, min: 1 }),
+        title: faker.lorem.lines(1),
+        tripId,
+    };
+
+    await axios.post(`${targetUrl}/api/review`, fakeReview);
+}
 async function main() {
-    await generateDriver(1);
+    await generateDriver(10);
     await sleep(1000);
-    const response = await axios.get('http://claycat.site:3000/api/driver');
-    const driverList = response.data.value.itemList as DriverEntity[];
-    for (const driver of driverList) {
-        console.log(driver);
-        try {
-            await generateTrip(1, driver.driverId);
-        } catch (e) {
-            console.log(e);
-        }
-    }
+    const driverResponse = await axios.get(`${targetUrl}/api/driver`);
+    const driverList = driverResponse.data.value.itemList as DriverEntity[];
+    await Promise.all(
+        driverList.map((driver) => {
+            const driverId = driver.driverId;
+            return generateTrip(10, driverId);
+        })
+    );
+
+    const tripResponse = await axios.get(`${targetUrl}/api/trip`);
+    const tripList = tripResponse.data.value.itemList as TripEntity[];
+    await Promise.all(
+        tripList.map((trip) => {
+            const tripId = trip.tripId;
+            return generateReview(tripId);
+        })
+    );
 }
 
 main();

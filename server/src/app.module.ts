@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import typeormConfig from './config/typeorm.config';
 import { DriverModule } from './driver/driver.module';
 import { TripModule } from './trip/trip.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { TripModule } from './trip/trip.module';
         }),
         DriverModule,
         TripModule,
+        ReviewModule,
     ],
     controllers: [AppController],
     providers: [AppService],

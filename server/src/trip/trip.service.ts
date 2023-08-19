@@ -5,7 +5,7 @@ import { TripStatusType } from 'src/type/trip';
 
 @Injectable()
 export class TripService {
-    constructor(private readonly tripRepostiory: TripRepository) {}
+    constructor(private readonly tripRepository: TripRepository) {}
     public async create({ startDate, endDate, driverId, userId, pickupLocation }: TripPostBodyDto) {
         const newTrip = {
             startDate,
@@ -15,12 +15,12 @@ export class TripService {
             pickupLocation,
             status: 'RESERVED' as TripStatusType,
         };
-        const newEntity = this.tripRepostiory.create(newTrip);
-        return this.tripRepostiory.save(newEntity);
+        const newEntity = this.tripRepository.create(newTrip);
+        return this.tripRepository.save(newEntity);
     }
 
     public async getOne(tripId: string) {
-        const trip = await this.tripRepostiory.findOneBy({ tripId });
+        const trip = await this.tripRepository.findOneBy({ tripId });
         if (trip === null) {
             throw new Error(`Trip with ${tripId} not found`);
         }
@@ -28,6 +28,6 @@ export class TripService {
     }
 
     public async getMany() {
-        return this.tripRepostiory.find();
+        return this.tripRepository.find();
     }
 }

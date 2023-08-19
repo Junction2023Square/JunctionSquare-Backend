@@ -5,13 +5,16 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
+    JoinColumn,
     ManyToOne,
+    OneToOne,
     Point,
     PrimaryColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import { v4 } from 'uuid';
 import { DriverEntity } from './driver.entity';
+import { ReviewEntity } from './review.entity';
 
 @Entity({ name: 'trip' })
 export class TripEntity {
@@ -45,6 +48,10 @@ export class TripEntity {
     @Column({ type: 'geography', spatialFeatureType: 'Point' })
     pickupLocation!: Point;
 
-    @ManyToOne(() => TripEntity, (trip) => trip.driver, { onDelete: 'CASCADE' })
+    @ManyToOne(() => DriverEntity, (driver) => driver.trip, { onDelete: 'CASCADE' })
     driver!: DriverEntity;
+
+    @OneToOne(() => ReviewEntity, (review) => review.trip, { nullable: true })
+    @JoinColumn()
+    review?: ReviewEntity;
 }

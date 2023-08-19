@@ -44,6 +44,6 @@ export class DriverEntity {
     @DeleteDateColumn({ select: false })
     deletedAt?: string;
 
-    @OneToMany(() => DriverEntity, (driver) => driver.trip)
+    @OneToMany(() => TripEntity, (trip) => trip.driver)
     trip!: TripEntity[];
 }
