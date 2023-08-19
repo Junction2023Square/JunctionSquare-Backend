@@ -1,7 +1,16 @@
 import { UuidLength } from 'src/constant/uuid';
 import { CarSizeType } from 'src/type/driver';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    DeleteDateColumn,
+    Entity,
+    OneToMany,
+    PrimaryColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 import { v4 } from 'uuid';
+import { TripEntity } from './trip.entity';
 
 @Entity({ name: 'driver' })
 export class DriverEntity {
@@ -34,4 +43,7 @@ export class DriverEntity {
 
     @DeleteDateColumn({ select: false })
     deletedAt?: string;
+
+    @OneToMany(() => DriverEntity, (driver) => driver.trip)
+    trip!: TripEntity[];
 }

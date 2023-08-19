@@ -13,7 +13,6 @@ export class DriverController {
     @Get(':driverId')
     @ApiOperation({ summary: '운전기사 조회 API ', description: '특정 운전기사 ID로 조회' })
     public async get(@Param('driverId') driverId: string): Promise<DriverGetResponseDto> {
-        console.log(driverId);
         const driver = await this.driverService.getOne(driverId);
         return { statusCode: HttpStatusCode.ok, value: { itemList: [driver] } };
     }
@@ -21,7 +20,7 @@ export class DriverController {
     @Get()
     @ApiOperation({ summary: '모든 운전기사 조회' })
     public async getAll(): Promise<DriverGetResponseDto> {
-        const itemList = await this.driverService.getAll();
+        const itemList = await this.driverService.getMany();
         const value = { itemList };
         return { statusCode: HttpStatusCode.ok, value };
     }

@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import typeormConfig from './config/typeorm.config';
 import { DriverModule } from './driver/driver.module';
+import { TripModule } from './trip/trip.module';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { DriverModule } from './driver/driver.module';
             useFactory: typeormConfig,
         }),
         DriverModule,
+        TripModule,
     ],
     controllers: [AppController],
     providers: [AppService],

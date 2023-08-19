@@ -6,7 +6,7 @@ volumes:
 services: 
   pg:
     container_name: pg
-    image: postgres:14.8-alpine
+    image: postgis/postgis:11-3.3-alpine
     restart: unless-stopped
     environment:
       - POSTGRES_USER=catenary

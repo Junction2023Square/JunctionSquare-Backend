@@ -26,7 +26,7 @@ export class DriverService {
         return driver;
     }
 
-    public async getAll() {
+    public async getMany() {
         return this.driverRepository.find();
     }
 }
