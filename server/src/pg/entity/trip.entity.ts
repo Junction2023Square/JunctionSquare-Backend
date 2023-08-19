@@ -30,7 +30,7 @@ export class TripEntity {
     @Column({ type: 'varchar' })
     driverId!: string;
 
-    @Column({ type: 'varchar' })
+    @Column({ type: 'varchar', nullable: true })
     userId?: string;
 
     @Column({ type: 'varchar' })

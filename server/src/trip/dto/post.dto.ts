@@ -17,8 +17,8 @@ export class TripPostBodyDto {
     @ApiProperty()
     driverId!: string;
 
-    @IsString()
     @IsOptional()
+    @IsString()
     @ApiProperty()
     userId?: string;
 
