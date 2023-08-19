@@ -1,0 +1,17 @@
+version: '3.4'
+
+volumes: 
+  pgData:
+
+services: 
+  pg:
+    container_name: pg
+    image: postgres:14.8-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=catenary
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgData:/var/lib/postgresql/data
