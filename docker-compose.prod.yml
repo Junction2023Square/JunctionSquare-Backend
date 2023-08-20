@@ -4,6 +4,14 @@ volumes:
   pgData:
 
 services: 
+  tourney_taxi:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - pg
 
   pg:
     container_name: pg
