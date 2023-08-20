@@ -6,7 +6,7 @@ import { TripEntity } from 'src/pg/entity/trip.entity';
 import { sleep } from 'src/util/util';
 import { ReviewEntity } from 'src/pg/entity/review.entity';
 
-const targetUrl = `http://localhost:3000`;
+const targetUrl = `http://claycat.site:3000`;
 
 function getRandomNumber(min: number, max: number): number {
     const randomDecimal: number = Math.random();
